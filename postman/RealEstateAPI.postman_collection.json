@@ -1,0 +1,488 @@
+{
+  "info": {
+    "_postman_id": "real-estate-api-collection",
+    "name": "Real Estate API",
+    "description": "API for managing real estate properties in the United States.\n\nDeveloped as a technical test for Senior .NET Developer position.\n\nFeatures:\n- Hexagonal Architecture\n- SOLID Principles\n- Clean Code\n- Unit Testing with NUnit\n- Reservation System",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000",
+      "type": "string"
+    },
+    {
+      "key": "ownerId1",
+      "value": "11111111-1111-1111-1111-111111111111",
+      "type": "string"
+    },
+    {
+      "key": "ownerId2",
+      "value": "22222222-2222-2222-2222-222222222222",
+      "type": "string"
+    },
+    {
+      "key": "propertyId1",
+      "value": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa",
+      "type": "string"
+    },
+    {
+      "key": "reservationId1",
+      "value": "rrrrrrrr-rrrr-rrrr-rrrr-rrrrrrrrrrrr",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Owners",
+      "item": [
+        {
+          "name": "Get All Owners",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/Owners",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "Owners"]
+            },
+            "description": "Retrieve a list of all property owners."
+          },
+          "response": []
+        },
+        {
+          "name": "Get Owner by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/Owners/{{ownerId1}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "Owners", "{{ownerId1}}"]
+            },
+            "description": "Retrieve a specific owner by their ID."
+          },
+          "response": []
+        },
+        {
+          "name": "Create Owner",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Jane Doe\",\n  \"address\": \"123 Main Street, Chicago, IL 60601\",\n  \"photo\": \"/images/owners/jane-doe.jpg\",\n  \"birthday\": \"1985-03-20\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/Owners",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "Owners"]
+            },
+            "description": "Create a new property owner."
+          },
+          "response": []
+        },
+        {
+          "name": "Update Owner",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Jane Doe Updated\",\n  \"address\": \"456 Updated Street, Chicago, IL 60602\",\n  \"photo\": \"/images/owners/jane-doe-updated.jpg\",\n  \"birthday\": \"1985-03-20\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/Owners/{{ownerId1}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "Owners", "{{ownerId1}}"]
+            },
+            "description": "Update an existing owner by ID."
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Owner",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/Owners/{{ownerId1}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "Owners", "{{ownerId1}}"]
+            },
+            "description": "Delete an owner by ID."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Properties",
+      "item": [
+        {
+          "name": "Get Property by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/Properties/{{propertyId1}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "Properties", "{{propertyId1}}"]
+            },
+            "description": "Retrieve a specific property by its ID with images and owner information."
+          },
+          "response": []
+        },
+        {
+          "name": "List Properties (No Filters)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/Properties",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "Properties"]
+            },
+            "description": "Retrieve all properties with default pagination."
+          },
+          "response": []
+        },
+        {
+          "name": "List Properties (With Pagination)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/Properties?page=1&pageSize=5",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "Properties"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1",
+                  "description": "Page number (default: 1)"
+                },
+                {
+                  "key": "pageSize",
+                  "value": "5",
+                  "description": "Items per page (default: 10)"
+                }
+              ]
+            },
+            "description": "Retrieve properties with custom pagination."
+          },
+          "response": []
+        },
+        {
+          "name": "List Properties (Filter by Name)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/Properties?name=beach",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "Properties"],
+              "query": [
+                {
+                  "key": "name",
+                  "value": "beach",
+                  "description": "Partial match on property name (case-insensitive)"
+                }
+              ]
+            },
+            "description": "Search properties by name (partial match, case-insensitive)."
+          },
+          "response": []
+        },
+        {
+          "name": "List Properties (Filter by Address)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/Properties?address=miami",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "Properties"],
+              "query": [
+                {
+                  "key": "address",
+                  "value": "miami",
+                  "description": "Partial match on address (case-insensitive)"
+                }
+              ]
+            },
+            "description": "Search properties by address (partial match, case-insensitive)."
+          },
+          "response": []
+        },
+        {
+          "name": "List Properties (Filter by Price Range)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/Properties?minPrice=1000000&maxPrice=5000000",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "Properties"],
+              "query": [
+                {
+                  "key": "minPrice",
+                  "value": "1000000",
+                  "description": "Minimum price (COP)"
+                },
+                {
+                  "key": "maxPrice",
+                  "value": "5000000",
+                  "description": "Maximum price (COP)"
+                }
+              ]
+            },
+            "description": "Filter properties by price range."
+          },
+          "response": []
+        },
+        {
+          "name": "List Properties (Filter by Year)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/Properties?year=2020",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "Properties"],
+              "query": [
+                {
+                  "key": "year",
+                  "value": "2020",
+                  "description": "Construction year"
+                }
+              ]
+            },
+            "description": "Filter properties by construction year."
+          },
+          "response": []
+        },
+        {
+          "name": "List Properties (Filter by Owner)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/Properties?ownerId={{ownerId2}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "Properties"],
+              "query": [
+                {
+                  "key": "ownerId",
+                  "value": "{{ownerId2}}",
+                  "description": "Owner ID (GUID)"
+                }
+              ]
+            },
+            "description": "Filter properties by owner ID."
+          },
+          "response": []
+        },
+        {
+          "name": "List Properties (Multiple Filters)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/Properties?address=miami&minPrice=500000&maxPrice=3000000&page=1&pageSize=10",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "Properties"],
+              "query": [
+                {
+                  "key": "address",
+                  "value": "miami",
+                  "description": "Partial match on address"
+                },
+                {
+                  "key": "minPrice",
+                  "value": "500000",
+                  "description": "Minimum price"
+                },
+                {
+                  "key": "maxPrice",
+                  "value": "3000000",
+                  "description": "Maximum price"
+                },
+                {
+                  "key": "page",
+                  "value": "1",
+                  "description": "Page number"
+                },
+                {
+                  "key": "pageSize",
+                  "value": "10",
+                  "description": "Items per page"
+                }
+              ]
+            },
+            "description": "Combine multiple filters in a single request."
+          },
+          "response": []
+        },
+        {
+          "name": "Create Property",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Sunset Villa\",\n  \"address\": \"500 Sunset Boulevard, San Diego, CA 92101\",\n  \"price\": 5000000,\n  \"codeInternal\": \"SD-VILLA-001\",\n  \"year\": 2023,\n  \"idOwner\": \"{{ownerId1}}\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/Properties",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "Properties"]
+            },
+            "description": "Create a new property. The codeInternal must be unique. Price in COP (Colombian Pesos)."
+          },
+          "response": []
+        },
+        {
+          "name": "Update Property",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Luxury Beach House - Updated\",\n  \"address\": \"100 Ocean Drive, Miami Beach, FL 33139\",\n  \"codeInternal\": \"MIA-BEACH-001\",\n  \"year\": 2019,\n  \"idOwner\": \"{{ownerId2}}\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/Properties/{{propertyId1}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "Properties", "{{propertyId1}}"]
+            },
+            "description": "Update an existing property by ID."
+          },
+          "response": []
+        },
+        {
+          "name": "Change Property Price",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"newPrice\": 5500000\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/Properties/{{propertyId1}}/price",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "Properties", "{{propertyId1}}", "price"]
+            },
+            "description": "Change the price of a property. This creates a trace record for audit purposes."
+          },
+          "response": []
+        },
+        {
+          "name": "Add Property Image",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"file\": \"https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80\",\n  \"enabled\": true\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/Properties/{{propertyId1}}/images",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "Properties", "{{propertyId1}}", "images"]
+            },
+            "description": "Add a new image to a property."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Reservations",
+      "item": [
+        {
+          "name": "Get Property Reservations",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/properties/{{propertyId1}}/reservations",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "properties", "{{propertyId1}}", "reservations"]
+            },
+            "description": "Retrieve all reservations for a specific property."
+          },
+          "response": []
+        },
+        {
+          "name": "Create Reservation",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"guestName\": \"Juan Perez\",\n  \"guestEmail\": \"juan.perez@email.com\",\n  \"checkIn\": \"2025-12-20\",\n  \"checkOut\": \"2025-12-25\",\n  \"guests\": 4\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/properties/{{propertyId1}}/reservations",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "properties", "{{propertyId1}}", "reservations"]
+            },
+            "description": "Create a new reservation for a property. Check-in must be in the future and check-out must be after check-in."
+          },
+          "response": []
+        },
+        {
+          "name": "Cancel Reservation",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/properties/{{propertyId1}}/reservations/{{reservationId1}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "properties", "{{propertyId1}}", "reservations", "{{reservationId1}}"]
+            },
+            "description": "Cancel an existing reservation. Changes status to 'cancelled'."
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
